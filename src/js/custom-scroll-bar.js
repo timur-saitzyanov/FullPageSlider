@@ -33,7 +33,7 @@ thumb
 
       const toTopStyle = e.touches[0].clientY.toFixed() - thumpInitialPosition;
       thumb.setAttribute('style', `
-      top: ${toTopStyle < 0 ? 0 : toTopStyle > thumbLineHeight - thumb.clientHeight + 3 ? thumbLineHeight- thumb.clientHeight + 3 : toTopStyle}px`);
+      top: ${toTopStyle < 0 ? -5 : toTopStyle > thumbLineHeight - thumb.clientHeight + 3 ? thumbLineHeight- thumb.clientHeight + 3 : toTopStyle}px`);
 
       document.querySelector('.slide-2__text').scrollTo({
         top: toTopStyle * coefficient,
@@ -41,20 +41,20 @@ thumb
 
     }
   })
-scrollParent.addEventListener("focusout", (e) => {
+scrollParent.addEventListener("focusout", () => {
   mouseDown = false;
 });
 scrollParent.addEventListener('mousemove', function (e){
   if (mouseDown){
     thumbPosition = e.clientY - thumpInitialPosition;
     thumb.setAttribute('style', `
-    top:${thumbPosition< 0 ? 0 : thumbPosition > thumbLineHeight - thumb.clientHeight + 3 ? thumbLineHeight- thumb.clientHeight + 3 : thumbPosition}px;`);
+    top:${thumbPosition < 0 ? -5 : thumbPosition > thumbLineHeight - thumb.clientHeight + 3 ? thumbLineHeight- thumb.clientHeight + 3 : thumbPosition}px;`);
     document.querySelector('.slide-2__text').scrollTo({
       top: coefficient*thumbPosition,
     });
   }
 
-}, {passive:true});
+});
 
 thumbLine.addEventListener("click", (e) => {
   mouseDown = false;
@@ -68,12 +68,15 @@ thumbLine.addEventListener("click", (e) => {
     behavior: 'smooth'
   });
 });
-const arr = [];
-scrollText.addEventListener('wheel', function (e) {
-  arr.push(e.deltaY);
-  let arrRed = arr.reduce((prev, next) => {
-    return prev + next;
-  }, thumbPosition);
+function changeThumbForWheelAndScroll (){
+  var scrollTop = document.querySelector('.slide-2__text').scrollTop;
+  var coefScroll = scrollTop / coefficient;
   thumb.setAttribute('style', `
-    transform:translate3d(0px,${arrRed / coefficient < 0 ? 0 : arrRed / coefficient > thumbLineHeight - thumb.clientHeight + 3 ? thumbLineHeight - thumb.clientHeight + 3 : arrRed / coefficient}px,0px`);
-}, { passive: true })
+    top:${coefScroll > (thumbLineHeight - thumb.clientHeight + 3 )? (thumbLineHeight - thumb.clientHeight + 3) : coefScroll}px;`);
+}
+scrollText.addEventListener('wheel', function () {
+  changeThumbForWheelAndScroll()
+});
+document.querySelector('.slide-2__text').addEventListener('scroll',()=>{
+  changeThumbForWheelAndScroll()
+})

@@ -5,10 +5,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyPlugin = require("copy-webpack-plugin");
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const webpack = require('webpack');
 const HtmlWebpackPugPlugin = require('html-webpack-pug-plugin');
-const loader = require('sass-loader');
-
+const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin")
 
 let mode = "development";
 let target = 'web';
@@ -21,12 +19,6 @@ module.exports = {
     mode: mode,
     target: target,
     entry: {
-        // index: { 
-        //     import: './src/js/index.js', filename: 'js/[name][contenthash].js',
-        // },
-        // print: {
-        //     import: './src/js/print.js', filename: 'js/[name][contenthash].js',
-        // },
         main: {
             import: './src/js/main.js',
         },
@@ -43,25 +35,46 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: './src/index.html',
             filename: './index.html',
-            // minify: false,
+            inject:'body'
         }),
         new HtmlWebpackPugPlugin({
 
         }),
         new MiniCssExtractPlugin({
-            linkType: false,
+            // linkType: false,
             filename: isProductionMode ? "style/[name][contenthash].css" : "style.css",
         }),
-        new CopyPlugin({
-            patterns: [
-                { from: "./src/images", to: "images" },
-                { from: "./src/font", to: "font" },
-
-                //         // { from: './src/docs', to: 'docs'},
-                //         // { from: './src/php', to: 'php'},
-                //         // // { from: "other", to: "public" },
-            ],
+        new ImageMinimizerPlugin({
+          generator: [
+              {
+                  preset: "webp",
+                  implementation: ImageMinimizerPlugin.imageminGenerate,
+                  options: {
+                      plugins: ["imagemin-webp"],
+                  },
+              },
+          ],
         }),
+       new CopyPlugin({
+           patterns: [
+             {
+               from: __dirname + '/src/images',
+               to: 'images',
+               // noErrorOnMissing: true
+             }
+           ]
+       }),
+
+// new CopyPlugin({
+        //     patterns: [
+        //         { from: "./src/images", to: "images" },
+        //         { from: "./src/font", to: "font" },
+        //
+        //         //         // { from: './src/docs', to: 'docs'},
+        //         //         // { from: './src/php', to: 'php'},
+        //         //         // // { from: "other", to: "public" },
+        //     ],
+        // }),
         new CleanWebpackPlugin(),
 
     ],
@@ -87,6 +100,7 @@ module.exports = {
                     }
                 }
             },
+
             {
                 test: /\.s[ac]ss$/i,
                 use: [
@@ -105,13 +119,14 @@ module.exports = {
                 loader: 'pug-loader'
             },
             {
-                test: /\.(svg|jpg|webp|jpeg|mp4|mp3)$/i,
-                type: 'asset',
+                test: /\.(svg|webp|mp4|mp3)$/i,
+                type: 'asset/resource',
             },
             {
                 test: /\.(gif)$/i,
                 type: 'asset/inline',
             },
+
             {
                 test: /\.(woff|woff2|eot|ttf|otf|doc|docx|rtf|svg|png)$/i,
                 type: 'asset/inline',
@@ -124,16 +139,66 @@ module.exports = {
                 test: /\.xml$/i,
                 use: ['xml-loader'],
             },
+            {
+                test: /\.(jpe?g|png|gif)$/i,
+                loader: ImageMinimizerPlugin.loader,
+                enforce: "pre",
+                options: {
+                    generator: [
+                        {
+                            preset: "webp",
+                            implementation: ImageMinimizerPlugin.imageminGenerate,
+                            options: {
+                                plugins: ["imagemin-webp"],
+                            },
+                        },
+                    ],
+                },
+            },
         ],
 
     },
     optimization: {
         // runtimeChunk: "single",
-        minimize: isProductionMode ? true : false,
+        minimize: isProductionMode ,
         minimizer: [
             // For webpack@5 you can use the `...` syntax to extend existing minimizers (i.e. `terser-webpack-plugin`), uncomment the next line
             `...`,
-            new CssMinimizerPlugin(),
+            new CssMinimizerPlugin({
+                test: /\.s[ac]ss$/i,
+                minimizerOptions: {
+                    preset: [
+                        "default",
+                        {
+                            discardComments: { removeAll: true },
+                        },
+                    ],
+                },
+            }),
+            new ImageMinimizerPlugin({
+                test: /\.(jpe?g|png|gif|svg)$/i,
+                minimizer: {
+                    implementation: ImageMinimizerPlugin.imageminMinify,
+                    options: {
+                        plugins: [
+                            "imagemin-gifsicle",
+                            "imagemin-mozjpeg",
+                            "imagemin-pngquant",
+                            "imagemin-svgo",
+                        ],
+                    },
+                },
+                generator: [
+                    {
+                        // You can apply generator using `?as=webp`, you can use any name and provide more options
+                        preset: "webp",
+                        implementation: ImageMinimizerPlugin.imageminGenerate,
+                        options: {
+                            plugins: ["imagemin-webp"],
+                        },
+                    },
+                ],
+            }),
 
         ],
     },
