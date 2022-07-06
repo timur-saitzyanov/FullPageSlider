@@ -1,0 +1,163 @@
+@media screen and (max-width: 1045px){
+  .conditionsDrug{
+    justify-content: end;
+    margin-right: 50px;
+  }
+  .slide-1__button-go {
+    bottom: 1vh;
+  }
+}
+@media screen and (max-width: 900px){
+  .slide-2__text{
+    width: 80vw;
+  }
+  .hideScroll:after{
+    background-color: rgb(204, 123, 163);
+  }
+  .conditionsDrug{
+    margin-right: -50px;
+    justify-content: center;
+  }
+  .slade-3_card1{
+    width: 300px;
+  }
+  .slade-3_card2{
+    width: 200px;
+  }
+  .slade-3_button{
+    width: 200px;
+    height: 64px;
+    font-size: 18px;
+    &:before{
+      top: 3%;
+    }
+    &:after{
+      left: 16%;
+      top: 37%;
+    }
+  }
+  .slade-3__cards{
+    font-size: 18px;
+  }
+  .slide-3__popup__popup-body{
+    max-width: 550px;
+    width: auto;
+    padding-left: 60px;
+  }
+  .wrapPopup{
+    justify-content: flex-end;
+  }
+  .slide-3__popup{
+    margin-right: 30px;
+  }
+  .slide-3__popup__popup-body button.close{
+    font-size: 50px;
+  }
+  .slide-3__popup__popup-body .popup-body__inner-slider .inner-slider__content .item-number, .slide-3__popup__popup-body .popup-body__inner-slider .inner-slider__content .item_text{
+    font-size: 18px;
+  }
+  .slide-3__popup__popup-body h3{
+    font-size: 22px;
+  }
+  .slide-3_label{
+    font-size: 4vw;
+  }
+
+}
+@media screen and (max-width: 750px){
+  .slide-3__popup__popup-body{
+    padding-left: 100px;
+  }
+}
+@media screen and (max-width: 700px){
+  .slide-3_float-images-1 {
+    top: 30vh;
+    left: 39px;
+    height: 400px;
+  }
+  .slide-1_big-sperm{
+    width: 300px;
+  }
+  .slide-2__text {
+    width: 450px;
+  }
+  .hideScroll:after {
+    background-color: white;
+  }
+}
+@media screen and (max-width: 600px){
+  .slide-1__button-go{
+    bottom: -10vh;
+    right: auto;
+  }
+  .slide-3_float-images-1 {
+    left: 70px;
+  }
+  .slade-3__cards{
+    flex-direction: column;
+  }
+  .slade-3_card2{
+    padding-left: 109px;
+    width: 300px;
+    margin-left: 0;
+    margin-top: 50px;
+  }
+  body {
+    overflow-y: auto;
+  }
+  .conditionsDrug{
+    margin-right: 0px;
+  }
+  .slide-3__popup__popup-body .popup-body__inner-slider .inner-slider__bottoms{
+    margin-left: auto;
+  }
+  .slide-3__popup__popup-body{
+    padding-left: 40px;
+  }
+  .slide-3__popup{
+    margin-right: 0;
+  }
+  .wrapPopup{
+    justify-content: center;
+  }
+  .slide-2_bg-image{
+    width: 350px;
+    height: 350px;
+  }
+  .slide-1__button-go{
+    height: 46px;
+    width: 200px;
+    border-radius: 40px;
+    button {
+      padding-left: 6.72vw;
+      font-size: 18px;
+    }
+    &:before{
+      width: 36px;
+      height: 36px;
+      top: 5px;
+    }
+    &:after{
+      width: 20px;
+      height: 20px;
+      background-size: 20px 15px;
+      background-repeat: no-repeat;
+      top: 2.688vw;
+    }
+  }
+}
+@media screen and (max-width: 500px){
+  .slide-2_line{
+    margin-left: 10px;
+  }
+  .slide-2__text{
+    width: 320px;
+    overflow-x: auto;
+  }
+  .hideScroll{
+    margin-left: -10px;
+  }
+  .slide-2__text p {
+    font-size: 16px;
+  }
+}

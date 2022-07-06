@@ -23,8 +23,12 @@ const thumbLine = document.querySelector('.slide-2_line');
 const thumbLineHeight = Number.parseInt(getComputedStyle(thumbLine, null).height);
 const scrollText = document.querySelector('.slide-2__text p');
 const scrollTextHeight = Number.parseInt(getComputedStyle(scrollText, null).height);
-const coefficient = (scrollTextHeight - scrollText.getBoundingClientRect().top) / thumbLineHeight;
-
+let coefficient = (scrollTextHeight - scrollText.getBoundingClientRect().top) / thumbLineHeight;
+if (document.querySelector('body').clientWidth < 900 && document.querySelector('body').clientWidth > 700){
+  coefficient /=2.6;
+}else  if (document.querySelector('body').clientWidth < 700){
+  coefficient /=2;
+}
 thumb
   .addEventListener( 'touchmove' , function (e) {
     if (e.cancelable) e.preventDefault();
@@ -69,6 +73,7 @@ thumbLine.addEventListener("click", (e) => {
   });
 });
 function changeThumbForWheelAndScroll (){
+
   var scrollTop = document.querySelector('.slide-2__text').scrollTop;
   var coefScroll = scrollTop / coefficient;
   thumb.setAttribute('style', `

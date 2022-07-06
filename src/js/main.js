@@ -1,5 +1,6 @@
 import '../style/style.scss';
 import './custom-scroll-bar';
+import '../style/mediaScreen.scss';
 // window.addEventListener('resize', ()=>{
 //  document.location.reload();
 // });
@@ -85,12 +86,25 @@ window.addEventListener('touchend',(e)=>{
   const modal = document.querySelector('.wrapPopup');
   if (slide3MoreInformationBtn){
     slide3MoreInformationBtn.addEventListener('click', function (){
-      modal.classList.add('open');
+      modal.style = 'display: flex';
+      setTimeout(()=>{
+        modal.classList.add('open');
+      },50)
+      if (document.querySelector('body').clientWidth < 640){
+        document.querySelector('.slide-3_float-images-1').style.opacity = 0;
+      }
     })
   }
   const btnClose = document.querySelector('button.close');
   btnClose.addEventListener('click', function (){
+    modal.style = `display: flex; transition: transform .35s cubic-bezier(0, 0.48, 1, 2.78);`
+
     modal.classList.remove('open');
+    document.querySelector('.slide-3_float-images-1').style.opacity = 1;
+    setTimeout(()=>{
+      modal.style = `display: none`;
+    },400)
+
   });
   const modalSliderLeftArrow = document.querySelector('.toLeftArrow');
   const modalSliderRightArrow = document.querySelector('.toRightArrow');

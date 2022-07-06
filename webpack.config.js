@@ -64,17 +64,6 @@ module.exports = {
              }
            ]
        }),
-
-// new CopyPlugin({
-        //     patterns: [
-        //         { from: "./src/images", to: "images" },
-        //         { from: "./src/font", to: "font" },
-        //
-        //         //         // { from: './src/docs', to: 'docs'},
-        //         //         // { from: './src/php', to: 'php'},
-        //         //         // // { from: "other", to: "public" },
-        //     ],
-        // }),
         new CleanWebpackPlugin(),
 
     ],
