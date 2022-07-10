@@ -11,4 +11,6 @@ Click on icon home returns you on the first slide
 
 ## For start project 
 Please use `npm install`<br>
+`npm start` for start dev-server <br>
+`npm run build` for production <br>
 I used the following version of node -v 12.22.11
