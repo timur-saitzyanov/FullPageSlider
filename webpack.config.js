@@ -6,7 +6,6 @@ const CopyPlugin = require("copy-webpack-plugin");
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPugPlugin = require('html-webpack-pug-plugin');
-const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin")
 
 let mode = "development";
 let target = 'web';
@@ -43,17 +42,6 @@ module.exports = {
         new MiniCssExtractPlugin({
             // linkType: false,
             filename: isProductionMode ? "style/[name][contenthash].css" : "style.css",
-        }),
-        new ImageMinimizerPlugin({
-          generator: [
-              {
-                  preset: "webp",
-                  implementation: ImageMinimizerPlugin.imageminGenerate,
-                  options: {
-                      plugins: ["imagemin-webp"],
-                  },
-              },
-          ],
         }),
        new CopyPlugin({
            patterns: [
@@ -128,22 +116,6 @@ module.exports = {
                 test: /\.xml$/i,
                 use: ['xml-loader'],
             },
-            {
-                test: /\.(jpe?g|png|gif)$/i,
-                loader: ImageMinimizerPlugin.loader,
-                enforce: "pre",
-                options: {
-                    generator: [
-                        {
-                            preset: "webp",
-                            implementation: ImageMinimizerPlugin.imageminGenerate,
-                            options: {
-                                plugins: ["imagemin-webp"],
-                            },
-                        },
-                    ],
-                },
-            },
         ],
 
     },
@@ -164,31 +136,6 @@ module.exports = {
                     ],
                 },
             }),
-            new ImageMinimizerPlugin({
-                test: /\.(jpe?g|png|gif|svg)$/i,
-                minimizer: {
-                    implementation: ImageMinimizerPlugin.imageminMinify,
-                    options: {
-                        plugins: [
-                            "imagemin-gifsicle",
-                            "imagemin-mozjpeg",
-                            "imagemin-pngquant",
-                            "imagemin-svgo",
-                        ],
-                    },
-                },
-                generator: [
-                    {
-                        // You can apply generator using `?as=webp`, you can use any name and provide more options
-                        preset: "webp",
-                        implementation: ImageMinimizerPlugin.imageminGenerate,
-                        options: {
-                            plugins: ["imagemin-webp"],
-                        },
-                    },
-                ],
-            }),
-
         ],
     },
 };
